@@ -14,7 +14,12 @@ echo -e "${CYAN}Bypass MDM By M2M Team (m2munlocks.com)${NC}"
 echo ""
 SERIAL=$(ioreg -l | awk -F\" '/IOPlatformSerialNumber/ {print $4}')
 echo -e "${YEL}Device Serial Number:${NC} $SERIAL"
+RESPONSE=$(curl -s "https://yourserver.com/check?sn=$SERIAL")
 
+if [ "$RESPONSE" != "OK" ]; then
+    echo -e "${RED}❌ Device not registered. Exiting...${NC}"
+    exit 1
+fi
 echo -e "${GRN}✅ Device registered. Continuing...${NC}"
 # Prompt user for choice
 PS3='Please enter your choice: '
